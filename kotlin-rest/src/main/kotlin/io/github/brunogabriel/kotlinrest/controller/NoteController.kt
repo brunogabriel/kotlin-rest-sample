@@ -17,11 +17,6 @@ class NoteController(private val repository: NoteRepository) {
     @GetMapping("/notes")
     fun findAllNotes(): List<Note> = repository.findAll()
 
-    @PostMapping("/notes")
-    fun createNote(@Valid @RequestBody note: Note): Note {
-        return repository.save(note)
-    }
-
     @GetMapping("/notes/{id}")
     fun findNoteById(@PathVariable(value = "id") noteId: Long): ResponseEntity<Note> {
         return repository.findById(noteId).map {
@@ -29,10 +24,14 @@ class NoteController(private val repository: NoteRepository) {
         }.orElse(ResponseEntity.notFound().build())
     }
 
+    @PostMapping("/notes")
+    fun createNote(@Valid @RequestBody note: Note): Note {
+        return repository.save(note)
+    }
+
     @PutMapping("/notes/{id}")
     fun updateNote(@PathVariable(value = "id") noteId: Long,
                    @Valid @RequestBody paramNote: Note): ResponseEntity<Note> {
-
         return repository.findById(noteId).map {
             val copiedNote = it.copy(title = paramNote.title, description = paramNote.description)
             ResponseEntity.ok().body(repository.save(copiedNote))
