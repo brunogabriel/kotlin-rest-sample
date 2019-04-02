@@ -75,16 +75,6 @@ class NoteControllerTest {
     }
 
     @Test
-    fun shouldNotUpdateNoteWhenNoteNotFound() {
-        // given
-        val updatedNote = Note(1L, "any", "any")
-        whenever(repository.findById(10L)).thenReturn(Optional.ofNullable(null))
-
-        // then
-        assertEquals(ResponseEntity.notFound().build<Note>(), controller.updateNote(1L, updatedNote))
-    }
-
-    @Test
     fun shouldUpdateNote() {
         // given
         val updatedNote = Note(1L, "anyTitle", "anyDescription")
@@ -101,12 +91,13 @@ class NoteControllerTest {
     }
 
     @Test
-    fun shouldNoteDeleteNoteById() {
+    fun shouldNotUpdateNoteWhenNoteNotFound() {
         // given
-        whenever(repository.findById(133L)).thenReturn(Optional.ofNullable(null))
+        val updatedNote = Note(1L, "any", "any")
+        whenever(repository.findById(10L)).thenReturn(Optional.ofNullable(null))
 
         // then
-        assertEquals(ResponseEntity.notFound().build<Note>(), controller.deleteNoteById(133L))
+        assertEquals(ResponseEntity.notFound().build<Note>(), controller.updateNote(1L, updatedNote))
     }
 
     @Test
@@ -121,6 +112,15 @@ class NoteControllerTest {
         // then
         verify(repository, times(1)).delete(note)
         assertEquals(ResponseEntity<Void>(HttpStatus.OK), result)
+    }
+
+    @Test
+    fun shouldNotDeleteNoteByIdWhenNoteNotFound() {
+        // given
+        whenever(repository.findById(133L)).thenReturn(Optional.ofNullable(null))
+
+        // then
+        assertEquals(ResponseEntity.notFound().build<Note>(), controller.deleteNoteById(133L))
     }
 
     private fun createNotes() = listOf(
