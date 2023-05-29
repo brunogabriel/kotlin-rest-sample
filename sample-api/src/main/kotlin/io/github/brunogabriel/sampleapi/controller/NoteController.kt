@@ -26,6 +26,7 @@ internal class NoteController(
     @Autowired
     private val service: NoteService
 ) {
+    @Operation(summary = "Create Notes")
     @PostMapping
     fun createNote(@Validated @RequestBody dto: Note): ResponseEntity<Note> =
         ResponseEntity(service.save(dto), HttpStatus.CREATED)
