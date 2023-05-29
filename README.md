@@ -1,8 +1,5 @@
 # kotin-rest-sample
-Only testing spring with **Kotlin**;
+A simple API using Spring Boot, Clean Architecture (KISS - Keep It Simple Stupid) to save Note Models.
 
+[![codebeat badge](https://codebeat.co/badges/713fd4bd-3503-4a24-9955-6563336b400c)](https://codebeat.co/projects/github-com-brunogabriel-kotin-rest-sample-master)
 
-# How to use
-
- 1. Create your database in MySQL, here using **kotlinsample**
- 2. Open application.properties file and change database name and include username + password
