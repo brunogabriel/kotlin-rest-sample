@@ -15,7 +15,7 @@ interface NoteService {
     fun save(note: Note): Note
     fun delete(note: Note)
     fun deleteById(id: Long)
-    fun update(note: Note): Note
+    fun update(id: Long, note: Note): Note?
 }
 
 @Service
@@ -41,5 +41,12 @@ internal class NoteServiceImpl(
     override fun deleteById(id: Long) = noteRepository.deleteById(id)
 
     @Transactional
-    override fun update(note: Note) = noteRepository.saveAndFlush(note)
+    override fun update(id: Long, note: Note): Note? =
+        findById(id).let { result ->
+            if (result != null) {
+                noteRepository.saveAndFlush(result.copy(title = note.title, content = note.content))
+            } else {
+                null
+            }
+        }
 }

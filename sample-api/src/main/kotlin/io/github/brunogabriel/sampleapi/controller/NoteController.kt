@@ -12,11 +12,14 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestParam
 
 @RestController
@@ -31,6 +34,17 @@ internal class NoteController(
     fun createNote(@Validated @RequestBody dto: Note): ResponseEntity<Note> =
         ResponseEntity(service.save(dto), HttpStatus.CREATED)
 
+    @Operation(summary = "Get Note by id")
+    @GetMapping("/{id}")
+    fun findById(@PathVariable("id") id: Long): ResponseEntity<Note> =
+        service.findById(id).let { note ->
+            if (note != null) {
+                ResponseEntity.ok(note)
+            } else {
+                ResponseEntity.notFound().build()
+            }
+        }
+
     @Operation(summary = "Get Notes by paging")
     @GetMapping
     fun findAll(
@@ -38,4 +52,20 @@ internal class NoteController(
         @Parameter(required = false) @RequestParam(defaultValue = "10") size: Int
     ): ResponseEntity<CustomPageModel<Note>> =
         ResponseEntity.ok(service.findAll(PageRequest.of(page, size)))
+
+    @Operation(summary = "Update Note by id")
+    @PutMapping("/{id}")
+    fun update(@PathVariable("id") id: Long, @Validated @RequestBody note: Note): ResponseEntity<Note> =
+        service.update(id, note).let { result ->
+            if (result != null) {
+                ResponseEntity.ok(result)
+            } else {
+                ResponseEntity.notFound().build()
+            }
+        }
+
+    @DeleteMapping("/{id}")
+    fun delete(@PathVariable("id") id: Long): ResponseEntity<Any> = service.deleteById(id).let {
+        ResponseEntity.noContent().build()
+    }
 }

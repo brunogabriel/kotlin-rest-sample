@@ -66,10 +66,11 @@ class NoteServiceTest {
         val note = Note(1L, "title", "content")
 
         // when
+        every { noteRepository.findById(1L) } returns Optional.of(note)
         every { noteRepository.saveAndFlush(note) } returns note
 
         // when
-        assertEquals(note, service.update(note))
+        assertEquals(note, service.update(1L, note))
     }
 
     @Test
