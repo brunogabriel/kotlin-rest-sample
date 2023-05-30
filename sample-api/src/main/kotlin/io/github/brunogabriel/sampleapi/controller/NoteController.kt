@@ -2,10 +2,16 @@ package io.github.brunogabriel.sampleapi.controller
 
 import io.github.brunogabriel.sampleapi.domain.model.Note
 import io.github.brunogabriel.sampleapi.domain.service.NoteService
+import io.github.brunogabriel.sampleapi.infrastructure.handler.TooManyRequestsModel
 import io.github.brunogabriel.sampleapi.infrastructure.page.CustomPageModel
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
+import io.swagger.v3.oas.annotations.media.ArraySchema
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.responses.ApiResponse
+import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
@@ -27,44 +33,48 @@ import org.springframework.web.bind.annotation.RequestParam
 @RequestMapping(value = ["/api/v1/notes"], produces = [MediaType.APPLICATION_JSON_VALUE])
 @Tag(name = "Notes")
 internal class NoteController(
-    @Autowired
-    private val service: NoteService
+  @Autowired
+  private val service: NoteService
 ) {
     @Operation(summary = "Create Notes")
     @PostMapping
     fun createNote(@Validated @RequestBody dto: Note): ResponseEntity<Note> =
-        ResponseEntity(service.save(dto), HttpStatus.CREATED)
+      ResponseEntity(service.save(dto), HttpStatus.CREATED)
 
     @Operation(summary = "Get Note by id")
     @GetMapping("/{id}")
     fun findById(@PathVariable("id") id: Long): ResponseEntity<Note> =
-        service.findById(id).let { note ->
-            if (note != null) {
-                ResponseEntity.ok(note)
-            } else {
-                ResponseEntity.notFound().build()
-            }
-        }
+      service.findById(id).let { note ->
+          if (note != null) {
+              ResponseEntity.ok(note)
+          } else {
+              ResponseEntity.notFound().build()
+          }
+      }
 
-    @Operation(summary = "Get Notes by paging")
+    @Operation(summary = "Get Notes by paging", responses = [
+        ApiResponse(responseCode = "200"),
+        ApiResponse(responseCode = "429",
+          content = [Content(array = ArraySchema(schema = Schema(implementation = TooManyRequestsModel::class)))]),
+    ])
     @RateLimiter(name = "default")
     @GetMapping
     fun findAll(
-        @Parameter(required = false) @RequestParam(defaultValue = "0") page: Int,
-        @Parameter(required = false) @RequestParam(defaultValue = "10") size: Int
+      @Parameter(required = false) @RequestParam(defaultValue = "0") page: Int,
+      @Parameter(required = false) @RequestParam(defaultValue = "10") size: Int
     ): ResponseEntity<CustomPageModel<Note>> =
-        ResponseEntity.ok(service.findAll(PageRequest.of(page, size)))
+      ResponseEntity.ok(service.findAll(PageRequest.of(page, size)))
 
     @Operation(summary = "Update Note by id")
     @PutMapping("/{id}")
     fun update(@PathVariable("id") id: Long, @Validated @RequestBody note: Note): ResponseEntity<Note> =
-        service.update(id, note).let { result ->
-            if (result != null) {
-                ResponseEntity.ok(result)
-            } else {
-                ResponseEntity.notFound().build()
-            }
-        }
+      service.update(id, note).let { result ->
+          if (result != null) {
+              ResponseEntity.ok(result)
+          } else {
+              ResponseEntity.notFound().build()
+          }
+      }
 
     @Operation(summary = "Delete Note by id")
     @DeleteMapping("/{id}")

@@ -12,13 +12,13 @@ import org.springframework.context.annotation.Bean
 internal class SwaggerConfiguration {
 
     @Bean
-    fun openAPI(): OpenAPI {
-        return OpenAPI()
-            .info(
-                Info()
-                    .title("Notes API")
-                    .version("1.0.0")
-            )
+    fun openAPI(): OpenAPI =
+      OpenAPI()
+        .info(
+          Info()
+            .title("Notes API")
+            .description("This API allows you to perform CRUD operations on Notes.")
+            .version("1.0.0")
+        )
 
-    }
 }
