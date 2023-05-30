@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 
 @ControllerAdvice
-internal class RateLimiterHandler {
-    private val logger: Logger = LoggerFactory.getLogger(RateLimiterHandler::class.java)
-
+internal class RateLimiterHandler(
+  private val logger: Logger = LoggerFactory.getLogger(RateLimiterHandler::class.java)
+) {
     @ExceptionHandler(RequestNotPermitted::class)
     fun handleNotPermitted(exception: RequestNotPermitted, request: HttpServletRequest): ResponseEntity<TooManyRequestsModel> =
       ResponseEntity(TooManyRequestsModel(), HttpStatus.TOO_MANY_REQUESTS).apply {

@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
-import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.PageRequest
@@ -38,8 +37,8 @@ internal class NoteController(
 ) {
     @Operation(summary = "Create Notes")
     @PostMapping
-    fun createNote(@Validated @RequestBody dto: Note): ResponseEntity<Note> =
-      ResponseEntity(service.save(dto), HttpStatus.CREATED)
+    fun createNote(@Validated @RequestBody note: Note): ResponseEntity<Note> =
+      ResponseEntity(service.save(note), HttpStatus.CREATED)
 
     @Operation(summary = "Get Note by id")
     @GetMapping("/{id}")
@@ -55,7 +54,7 @@ internal class NoteController(
     @Operation(summary = "Get Notes by paging", responses = [
         ApiResponse(responseCode = "200"),
         ApiResponse(responseCode = "429",
-          content = [Content(array = ArraySchema(schema = Schema(implementation = TooManyRequestsModel::class)))]),
+            content = [Content(array = ArraySchema(schema = Schema(implementation = TooManyRequestsModel::class)))]),
     ])
     @RateLimiter(name = "default")
     @GetMapping

@@ -7,11 +7,14 @@ import io.github.brunogabriel.sampleapi.infrastructure.page.CustomPageModel
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.just
 import io.mockk.mockk
+import io.mockk.runs
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertDoesNotThrow
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import java.util.Optional
@@ -19,7 +22,6 @@ import java.util.Optional
 class NoteServiceTest {
     @MockK
     private lateinit var noteRepository: NoteRepository
-
 
     @MockK
     private lateinit var pageMapper: CustomPageMapper<Note>
@@ -93,4 +95,41 @@ class NoteServiceTest {
         // then
         assertNull(service.findById(1L))
     }
+
+    @Test
+    fun `should delete by id`() {
+        // when
+        every { noteRepository.deleteById(1L) } just runs
+
+        // then
+        assertDoesNotThrow {
+            service.deleteById(1L)
+        }
+    }
+
+    @Test
+    fun `should delete by model`() {
+        // given
+        val mock = mockk<Note>()
+        // when
+        every { noteRepository.delete(mock) } just runs
+
+        // then
+        assertDoesNotThrow {
+            service.delete(mock)
+        }
+    }
+
+    @Test
+    fun `should return null when update nothing`() {
+        // given
+        val mock = mockk<Note>()
+
+        // when
+        every { noteRepository.findById(any()) } returns Optional.empty()
+
+        // then
+        assertNull(service.update(10L, mock))
+    }
+
 }
