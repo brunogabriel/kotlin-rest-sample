@@ -3,6 +3,7 @@ package io.github.brunogabriel.sampleapi.controller
 import io.github.brunogabriel.sampleapi.domain.model.Note
 import io.github.brunogabriel.sampleapi.domain.service.NoteService
 import io.github.brunogabriel.sampleapi.infrastructure.page.CustomPageModel
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -46,6 +47,7 @@ internal class NoteController(
         }
 
     @Operation(summary = "Get Notes by paging")
+    @RateLimiter(name = "default")
     @GetMapping
     fun findAll(
         @Parameter(required = false) @RequestParam(defaultValue = "0") page: Int,
@@ -64,6 +66,7 @@ internal class NoteController(
             }
         }
 
+    @Operation(summary = "Delete Note by id")
     @DeleteMapping("/{id}")
     fun delete(@PathVariable("id") id: Long): ResponseEntity<Any> = service.deleteById(id).let {
         ResponseEntity.noContent().build()
