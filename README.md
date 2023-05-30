@@ -17,6 +17,7 @@
 </div>
 
 [![Codebeat][codebeat-shield]][codebeat-url]
+[![Codecov][codecov-shield]][codecov-url]
 
 
 <!-- ABOUT THE PROJECT -->
@@ -64,4 +65,7 @@ Distributed under the MIT License. See [`LICENSE`](https://github.com/brunogabri
 [codebeat-url]: https://codebeat.co/projects/github-com-brunogabriel-kotin-rest-sample-master
 
 [swagger-showcase]: showcase/swagger.png
+
+[codecov-shield]: https://codecov.io/github/brunogabriel/kotlin-rest-sample/branch/main/graph/badge.svg?token=5HAq5InABW
+[codecov-url]: https://codecov.io/github/brunogabriel/kotlin-rest-sample
 
