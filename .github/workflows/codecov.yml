@@ -15,17 +15,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Set up JDK 18
+        uses: actions/setup-java@v1
+        with:
+          java-version: 18
+      - name: Install dependencies, run tests, and collect coverage
+        run: gradle build
       - name: Display directory
         run: |
           ls -a
-#       - name: Set up JDK 18
-#         uses: actions/setup-java@v1
-#         with:
-#           java-version: 18
-#       - name: Install dependencies, run tests, and collect coverage
-#         run: gradle build
-#       - name: Upload coverage reports to Codecov
-#         uses: codecov/codecov-action@v3
-#         with:
-#           token: ${{secrets.CODECOV_TOKEN}}
-#           file: ./build/reports/jacoco/test/jacocoTestReport.xml
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{secrets.CODECOV_TOKEN}}
+          file: ./build/reports/jacoco/test/jacocoTestReport.xml
