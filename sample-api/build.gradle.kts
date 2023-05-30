@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version "3.0.7"
     id("io.spring.dependency-management") version "1.1.0"
+    id("jacoco")
     kotlin("jvm") version "1.7.22"
     kotlin("plugin.spring") version "1.7.22"
 }
@@ -35,6 +36,7 @@ dependencies {
     testImplementation("io.mockk:mockk:1.13.5")
 }
 
+
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
@@ -44,4 +46,14 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks {
+    jacocoTestReport {
+        dependsOn(test)
+        reports {
+            xml.isEnabled = true
+            html.isEnabled = true
+        }
+    }
 }
