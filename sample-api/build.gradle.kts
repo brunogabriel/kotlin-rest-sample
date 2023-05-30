@@ -57,3 +57,6 @@ tasks {
         }
     }
 }
+tasks.named("build") {
+    dependsOn("jacocoTestReport")
+}
