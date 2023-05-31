@@ -7,13 +7,10 @@
 
 <br />
 <div align="center">
-  
 <h3 align="center">Kotlin REST Sample</h3>
-
   <p align="center">
     This is a sample project demonstrating a RESTful API implementation using Kotlin and Spring Boot.
   </p>
-
 </div>
 
 [![Codebeat][codebeat-shield]][codebeat-url]
