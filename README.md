@@ -61,8 +61,8 @@ Distributed under the MIT License. See [`LICENSE`](https://github.com/brunogabri
 [spring-shield]: https://img.shields.io/static/v1?style=for-the-badge&message=Spring&color=6DB33F&logo=Spring&logoColor=FFFFFF&label=
 [spring-url]: https://spring.io
 
-[codebeat-shield]: https://codebeat.co/badges/713fd4bd-3503-4a24-9955-6563336b400c
-[codebeat-url]: https://codebeat.co/projects/github-com-brunogabriel-kotin-rest-sample-master
+[codebeat-shield]: https://codebeat.co/badges/2dd08cac-f925-4352-82ce-2d11a21da18f
+[codebeat-url]: https://codebeat.co/projects/github-com-brunogabriel-kotlin-rest-sample-main
 
 [swagger-showcase]: showcase/swagger.png
 
