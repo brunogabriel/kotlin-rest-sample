@@ -67,5 +67,4 @@ Distributed under the MIT License. See [`LICENSE`](https://github.com/brunogabri
 [swagger-showcase]: showcase/swagger.png
 
 [codecov-shield]: https://codecov.io/github/brunogabriel/kotlin-rest-sample/branch/main/graph/badge.svg?token=5HAq5InABW
-[codecov-url]: https://codecov.io/github/brunogabriel/kotlin-rest-sample
-
+[codecov-url]: https://codecov.io/github/brunogabriel/kotlin-rest-sample/tree/main
