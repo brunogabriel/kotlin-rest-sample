@@ -21,9 +21,6 @@ jobs:
           java-version: 18
       - name: Install dependencies, run tests, and collect coverage
         run: gradle build
-      - name: Display directory
-        run: |
-          ls -a
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
         with:
