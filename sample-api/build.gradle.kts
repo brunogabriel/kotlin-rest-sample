@@ -4,18 +4,24 @@ plugins {
     id("org.springframework.boot") version "3.0.7"
     id("io.spring.dependency-management") version "1.1.0"
     id("jacoco")
-    kotlin("jvm") version "1.7.22"
-    kotlin("plugin.spring") version "1.7.22"
+    val kotlinVersion = "1.7.22"
+    kotlin("jvm") version kotlinVersion
+    kotlin("plugin.spring") version kotlinVersion
 }
 
 group = "io.github.brunogabriel"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
+extra["openApiVersion"] = "2.1.0"
+extra["resilience4jVersion"] = "2.0.2"
+extra["mockkVersion"] = "1.13.5"
+
 repositories {
     mavenCentral()
 }
 
+// versions set up in extra properties
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -25,15 +31,16 @@ dependencies {
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
 
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${property("openApiVersion")}")
 
-    implementation("io.github.resilience4j:resilience4j-spring-boot3:2.0.2")
+    implementation("io.github.resilience4j:resilience4j-spring-boot3:${property("resilience4jVersion")}")
     
     runtimeOnly("com.h2database:h2")
+}
 
+dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-
-    testImplementation("io.mockk:mockk:1.13.5")
+    testImplementation("io.mockk:mockk:${property("mockkVersion")}")
 }
 
 

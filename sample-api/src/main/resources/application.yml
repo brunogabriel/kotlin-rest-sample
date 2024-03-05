@@ -1,0 +1,39 @@
+# swagger config
+springdoc:
+  swagger-ui:
+    path: ${SWAGGER_PATH:/swagger}
+
+# h2 jpa
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;FILE_LOCK=FS
+    driverClassName: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+# log
+logging:
+  level:
+    org:
+      springframework:
+        web: TRACE
+
+# health check
+management:
+  health:
+    ratelimiters:
+      enabled: ${RATELIMITERS_ENABLED:true}
+
+# resilience4j
+# ratelimit
+resilience4j:
+  ratelimiter:
+    configs:
+      default:
+        limitForPeriod: ${RATELIMITER_LIMIT_FOR_PERIOD:5}
+        limitRefreshPeriod: ${RATELIMITER_LIMIT_REFRESH_PERIOD:60s}
+        timeoutDuration: ${RATELIMITER_TIMEOUT_DURATION:0ms}
