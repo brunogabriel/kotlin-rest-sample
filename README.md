@@ -30,12 +30,22 @@ Swagger is a powerful tool that generates interactive API documentation, making 
 
 Resilience4j is a powerful resilience library for Java and Kotlin applications that helps developers build robust and fault-tolerant systems. It provides a comprehensive set of resilience patterns and features, allowing applications to handle failures, latency, and other unexpected scenarios gracefully.
 
-This project only use rate limiting strategy and their configuration for this sample can be easily accessed and modified in the application.properties file. 
+This project only use rate limiting strategy and their configuration for this sample can be easily accessed and modified in the application.yml file. 
 
 ```properties
-resilience4j.ratelimiter.configs.default.limitForPeriod=5
-resilience4j.ratelimiter.configs.default.limitRefreshPeriod=60s
-resilience4j.ratelimiter.configs.default.timeoutDuration=0ms
+resilience4j:
+  ratelimiter:
+    configs:
+        default:
+            limitForPeriod: 5
+            limitRefreshPeriod: 60s
+            timeoutDuration: 0ms
+```
+You can also override these settings using environment variables:
+```properties
+RATELIMITER_LIMIT_FOR_PERIOD
+RATELIMITER_LIMIT_REFRESH_PERIOD
+RATELIMITER_TIMEOUT_DURATION
 ```
 
 <!-- LICENSE -->
